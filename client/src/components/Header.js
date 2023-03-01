@@ -15,10 +15,43 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
-
+import { useTheme } from '@mui/material/styles';
 // AppBar design from https://mui.com/material-ui/react-app-bar/
 
+const Search = styled('div')(({ theme }) => ({
+    position: 'relative',
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: alpha(theme.palette.common.white, 0.15),
+    '&:hover': {
+        backgroundColor: alpha(theme.palette.common.white, 0.25),
+    },
+    marginRight: theme.spacing(2),
+    marginLeft: 0,
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+        marginLeft: theme.spacing(3),
+        width: 'auto',
+    },
+}));
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+    color: 'inherit',
+    '& .MuiInputBase-input': {
+        padding: theme.spacing(1, 1, 1, 0),
+        // vertical padding + font size from searchIcon
+        paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+        transition: theme.transitions.create('width'),
+        width: '100%',
+        [theme.breakpoints.up('md')]: {
+            width: '20ch',
+        },
+    },
+}));
+
 function Header() {
+
+    const theme = useTheme();
+
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -41,37 +74,6 @@ function Header() {
     const handleMobileMenuOpen = (event) => {
         setMobileMoreAnchorEl(event.currentTarget);
     };
-
-    const Search = styled('div')(({ theme }) => ({
-        position: 'relative',
-        borderRadius: theme.shape.borderRadius,
-        backgroundColor: alpha(theme.palette.common.white, 0.15),
-        '&:hover': {
-            backgroundColor: alpha(theme.palette.common.white, 0.25),
-        },
-        marginRight: theme.spacing(2),
-        marginLeft: 0,
-        width: '100%',
-        [theme.breakpoints.up('sm')]: {
-            marginLeft: theme.spacing(3),
-            width: 'auto',
-        },
-    }));
-
-    const StyledInputBase = styled(InputBase)(({ theme }) => ({
-        color: 'inherit',
-        '& .MuiInputBase-input': {
-            padding: theme.spacing(1, 1, 1, 0),
-            // vertical padding + font size from searchIcon
-            paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-            transition: theme.transitions.create('width'),
-            width: '100%',
-            [theme.breakpoints.up('md')]: {
-                width: '20ch',
-            },
-        },
-    }));
-
 
     const menuId = 'primary-search-account-menu';
     const renderMenu = (
@@ -149,7 +151,7 @@ function Header() {
 
 
     return (
-        <div>
+        <Box sx={{ flexGrow: 1, borderTop: 2, borderColor: theme.palette.accent}}>
             <AppBar position="static">
                 <Toolbar>
 
@@ -172,22 +174,22 @@ function Header() {
                         <AccountCircle />
                     </IconButton>
                     {/* <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-                        <IconButton
-                            size="large"
-                            aria-label="show more"
-                            aria-controls={mobileMenuId}
-                            aria-haspopup="true"
-                            onClick={handleMobileMenuOpen}
-                            color="inherit"
-                        >
-                            <MoreIcon />
-                        </IconButton>
-                    </Box> */}
+                            <IconButton
+                                size="large"
+                                aria-label="show more"
+                                aria-controls={mobileMenuId}
+                                aria-haspopup="true"
+                                onClick={handleMobileMenuOpen}
+                                color="inherit"
+                            >
+                                <MoreIcon />
+                            </IconButton>
+                        </Box> */}
                 </Toolbar>
             </AppBar>
             {/* {renderMobileMenu} */}
             {renderMenu}
-        </div>
+        </Box>
     );
 }
 
