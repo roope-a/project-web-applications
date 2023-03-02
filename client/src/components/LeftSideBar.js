@@ -1,15 +1,13 @@
 import { styled, alpha } from '@mui/material/styles';
 import { Box } from '@mui/system';
 import React from 'react';
-import { left } from '@mui/system';
 import { useTheme } from '@mui/material/styles';
 import { Grid, Link, List, Toolbar, Typography } from '@mui/material';
 
 
 const SideBar = styled(Box)(({ theme }) => ({
     width: 175,
-    position: left,
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
         display: 'none',
     },
 }));

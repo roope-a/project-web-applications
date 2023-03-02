@@ -3,16 +3,13 @@ import { Box } from '@mui/system';
 import React, { useEffect, useState } from 'react';
 import Header from './Header';
 import LeftSideBar from './LeftSideBar';
+import PageBase from './PageBase';
 import Post from './Post';
 import SubHeader from './SubHeader';
 
 function QuestionPage() {
     return (
-        <div>
-            <Header />
-            <Grid container spacing={0} margin={0} >
-
-                <Grid item ><LeftSideBar /></Grid>
+        <PageBase>
                 <Grid item xs>
                     <SubHeader title='Q Title' />
                     <Typography>
@@ -22,11 +19,7 @@ function QuestionPage() {
                     <Post></Post>
                     <Post></Post>
                 </Grid>
-            </Grid>
-
-
-
-        </div>
+        </PageBase>
     );
 }
 

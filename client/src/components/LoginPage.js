@@ -1,4 +1,4 @@
-import { Button, Grid, Paper, TextField, Typography } from '@mui/material';
+import { Button, Container, Grid, Paper, TextField, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
@@ -10,8 +10,7 @@ function LoginPage() {
     // some fect requests here 
 
     return (
-        <div>
-        <div>
+        <Box>
             <Header />
             <Box display='flex'
                 justifyContent='center'
@@ -27,7 +26,7 @@ function LoginPage() {
                             <Grid container direction='column' align='center' p={1}>
                                 <TextField label='Email' style={{ marginTop: 10 }} />
                                 <TextField label='Password' style={{ marginTop: 10 }} />
-                                <Button variant='contained' style={{ marginTop: 10 }}>Log in</Button>
+                                <Button variant='contained' color='secondary' style={{ marginTop: 10 }}>Log in</Button>
                             </Grid>
                         </Box>
                     </Paper>
@@ -38,13 +37,9 @@ function LoginPage() {
                         Don't have an account?
                         <Link component={RouterLink} to='/users/register' underline='none' marginLeft={1}>Register here</Link>
                     </Box>
-                    
                 </Grid>
-
             </Box>
-
-        </div>
-        </div>
+        </Box>
     );
 }
 

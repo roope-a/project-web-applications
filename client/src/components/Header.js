@@ -42,9 +42,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
         paddingLeft: `calc(1em + ${theme.spacing(4)})`,
         transition: theme.transitions.create('width'),
         width: '100%',
-        [theme.breakpoints.up('md')]: {
-            width: '20ch',
-        },
+        // [theme.breakpoints.up('md')]: {
+        //     width: '20ch',
+        // },
     },
 }));
 
@@ -115,8 +115,8 @@ function Header() {
     //         onClose={handleMobileMenuClose}
     //     >
     //         <MenuItem>
-    //             <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-    //                 <Badge badgeContent={4} color="error">
+    //             <IconButton size='large' aria-label='show 4 new mails' color='inherit'>
+    //                 <Badge badgeContent={4} color='error'>
     //                     <MailIcon />
     //                 </Badge>
     //             </IconButton>
@@ -124,11 +124,11 @@ function Header() {
     //         </MenuItem>
     //         <MenuItem>
     //             <IconButton
-    //                 size="large"
-    //                 aria-label="show 17 new notifications"
-    //                 color="inherit"
+    //                 size='large'
+    //                 aria-label='show 17 new notifications'
+    //                 color='inherit'
     //             >
-    //                 <Badge badgeContent={17} color="error">
+    //                 <Badge badgeContent={17} color='error'>
     //                     <NotificationsIcon />
     //                 </Badge>
     //             </IconButton>
@@ -136,11 +136,11 @@ function Header() {
     //         </MenuItem>
     //         <MenuItem onClick={handleProfileMenuOpen}>
     //             <IconButton
-    //                 size="large"
-    //                 aria-label="account of current user"
-    //                 aria-controls="primary-search-account-menu"
-    //                 aria-haspopup="true"
-    //                 color="inherit"
+    //                 size='large'
+    //                 aria-label='account of current user'
+    //                 aria-controls='primary-search-account-menu'
+    //                 aria-haspopup='true'
+    //                 color='inherit'
     //             >
     //                 <AccountCircle />
     //             </IconButton>
@@ -152,35 +152,35 @@ function Header() {
 
     return (
         <Box sx={{ flexGrow: 1, borderTop: 2, borderColor: theme.palette.accent}}>
-            <AppBar position="static">
-                <Toolbar>
-
-                    <Search>
-                        <StyledInputBase
-                            placeholder="Search…"
+            <AppBar position='static'>
+                <Toolbar sx={{ justifyContent: 'space-between' }}>
+                    
+                    <Search sx={{ flexGrow: 1 }}>
+                        <StyledInputBase fullWidth={true}
+                            placeholder='Search…'
                             inputProps={{ 'aria-label': 'search' }}
                         />
                     </Search>
-                    <Box sx={{ flexGrow: 1 }} />
+                    {/* <Box sx={{ flexGrow: 1 }} /> */}
                     <IconButton
-                        size="large"
-                        edge="end"
-                        aria-label="account of current user"
+                        size='large'
+                        edge='end'
+                        aria-label='account of current user'
                         aria-controls={menuId}
-                        aria-haspopup="true"
+                        aria-haspopup='true'
                         onClick={handleProfileMenuOpen}
-                        color="inherit"
+                        color='inherit'
                     >
                         <AccountCircle />
                     </IconButton>
                     {/* <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
                             <IconButton
-                                size="large"
-                                aria-label="show more"
+                                size='large'
+                                aria-label='show more'
                                 aria-controls={mobileMenuId}
-                                aria-haspopup="true"
+                                aria-haspopup='true'
                                 onClick={handleMobileMenuOpen}
-                                color="inherit"
+                                color='inherit'
                             >
                                 <MoreIcon />
                             </IconButton>

@@ -9,17 +9,38 @@ import UsersPage from './components/UsersPage';
 import LoginPage from './components/LoginPage';
 import { CssBaseline } from '@mui/material';
 import ProfilePage from './components/ProfilePage';
+import NotFound from './components/NotFound';
 
 const getDesignTokens = (mode) => ({
+  components: {
+    MuiToolbar: {
+      styleOverrides: {
+        root: {
+          // height: 56
+        }
+      }
+    }
+  },
   palette: {
     mode,
     ...(mode === 'light'
     // light
-      ? {}
+      ? {
+        primary: {
+          main: '#F8F9F9',
+        },
+        secondary: {
+          main: '#0A95FF',
+        },
+        accent: '#FF5722'
+      }
       // dark
       : {
         background: {
           default: '#757575'
+        },
+        secondary: {
+          main: '#0A95FF',
         },
         accent: '#FF5722'
       })
@@ -61,6 +82,7 @@ function App() {
             <Route path='/users' element={ <UsersPage/> }/>
             {/* needs to be like /users/:id/:name ?? */}
             <Route path='/users/profile' element={ <ProfilePage/> }/>
+            <Route path='*' element={ <NotFound /> }/>
           </Routes>
         </Router>
       </ThemeProvider>
