@@ -18,10 +18,12 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import { useTheme } from '@mui/material/styles';
 import { Collapse, Drawer, List, ListItem } from '@mui/material';
 import LeftSideBar from './LeftSideBar';
+
 // AppBar design from https://mui.com/material-ui/react-app-bar/
+// Drawer https://mui.com/material-ui/react-drawer/
 
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import NavLinks from './NavLinks';
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -234,10 +236,9 @@ function Header() {
                         </Box> */}
                 </Toolbar>
             </AppBar>
-            <Drawer open={open} sx={{width: 'auto', '& .MuiDrawer-paper': { width: 175, overflow: 'hidden'},}}>
-                <Toolbar></Toolbar>
-
-                    <LeftSideBar/>
+            <Drawer open={open} sx={{width: 'auto', [theme.breakpoints.up('md')]: {display: 'none'}, '& .MuiDrawer-paper': { width: 200, height:'auto', overflow: 'hidden'},}}>
+                <Toolbar/>
+                <NavLinks/>
             </Drawer>
 
             {/* {renderMobileMenu} */}

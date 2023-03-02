@@ -3,6 +3,7 @@ import { Box } from '@mui/system';
 import React from 'react';
 import { useTheme } from '@mui/material/styles';
 import { Grid, Link, List, Toolbar, Typography } from '@mui/material';
+import NavLinks from './NavLinks';
 
 
 const SideBar = styled(Box)(({ theme }) => ({
@@ -16,15 +17,7 @@ function LeftSideBar() {
     const theme = useTheme();
     return (
     <SideBar sx={{ height: '100vh', borderRight: 2, borderColor: theme.palette.divider }}>
-        <Toolbar>
-        <List mt={5}>
-            <Link>Home</Link>
-            <Typography pt={3}>Public</Typography>
-            <Link>Questions</Link>
-            <br></br>
-            <Link>Users</Link>
-        </List>
-        </Toolbar>
+        <NavLinks></NavLinks>
         </SideBar>
     );
 }
