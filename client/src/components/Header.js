@@ -16,7 +16,12 @@ import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import { useTheme } from '@mui/material/styles';
+import { Collapse, Drawer, List, ListItem } from '@mui/material';
+import LeftSideBar from './LeftSideBar';
 // AppBar design from https://mui.com/material-ui/react-app-bar/
+
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -45,6 +50,12 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
         // [theme.breakpoints.up('md')]: {
         //     width: '20ch',
         // },
+    },
+}));
+
+const StyledIconButton = styled(IconButton)(({ theme }) => ({
+    [theme.breakpoints.up('md')]: {
+        display: 'none',
     },
 }));
 
@@ -150,11 +161,47 @@ function Header() {
     // );
 
 
+    const [open, setOpen] = React.useState(false);
+
+    const handleDrawerOpen = () => {
+        setOpen(true);
+    };
+
+    const handleDrawerClose = () => {
+        setOpen(false);
+    };
+
+
     return (
-        <Box sx={{ flexGrow: 1, borderTop: 2, borderColor: theme.palette.accent}}>
-            <AppBar position='static'>
+        <Box sx={{ flexGrow: 1, borderTop: 2, borderColor: theme.palette.accent }}>
+            <AppBar position='relative' sx={{ zIndex: theme.zIndex.drawer + 1 }}>
                 <Toolbar sx={{ justifyContent: 'space-between' }}>
-                    
+
+                    <StyledIconButton
+                        color="inherit"
+                        aria-label="open drawer"
+                        onClick={handleDrawerOpen}
+                        edge="start"
+                        sx={{
+                            marginRight: 5,
+                            ...(open && { display: 'none' }),
+                        }}
+                    >
+                        <MenuIcon />
+                    </StyledIconButton>
+                    <StyledIconButton
+                        color="inherit"
+                        aria-label="open drawer"
+                        onClick={handleDrawerClose}
+                        edge="start"
+                        sx={{
+                            marginRight: 5,
+                            ...(!open && { display: 'none' }),
+                        }}
+                    >
+                        <ChevronLeftIcon />
+                    </StyledIconButton>
+
                     <Search sx={{ flexGrow: 1 }}>
                         <StyledInputBase fullWidth={true}
                             placeholder='Search…'
@@ -187,6 +234,12 @@ function Header() {
                         </Box> */}
                 </Toolbar>
             </AppBar>
+            <Drawer open={open} sx={{width: 'auto', '& .MuiDrawer-paper': { width: 175, overflow: 'hidden'},}}>
+                <Toolbar></Toolbar>
+
+                    <LeftSideBar/>
+            </Drawer>
+
             {/* {renderMobileMenu} */}
             {renderMenu}
         </Box>
