@@ -3,7 +3,10 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const mongoose = require('mongoose');
-const cors = require('cors')
+const cors = require('cors');
+
+require('./auth/passport-config');
+require('dotenv').config({ path: '../.env' });
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');

@@ -1,11 +1,10 @@
 const mongoose = require('mongoose');
 
-const MyObjectId = mongoose.Types.ObjectId;
-
+const ObjectId = mongoose.Types.ObjectId;
 const Schema = mongoose.Schema;
 
 let postSchema = new Schema ({
-    user: {type: MyObjectId, ref: 'user'},
+    user: {type: ObjectId, ref: 'user'},
     content: {type: String},
     votes: {type: Number, default: 0},
     date: {type: Date},

@@ -1,20 +1,19 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
-const MyObjectId = mongoose.Types.ObjectId;
-
+const ObjectId = mongoose.Types.ObjectId;
 const Schema = mongoose.Schema;
 
 let userSchema = new Schema ({
     displayName: {type: String},
     email: {type: String},
     password: {type: String},
-    posts: {type: [MyObjectId], ref: 'post'},
-    registerDate: {type: Date},
+    posts: {type: [ObjectId], ref: 'post'},
+    registerDate: {type: Date, default: Date.now},
 });
 
 userSchema.pre('save', async function(next) {
-    const user = this;
+
     const hash = await bcrypt.hash(this.password, 10);
     this.password = hash;
     next();
