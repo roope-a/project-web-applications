@@ -1,9 +1,14 @@
 const express = require('express');
 const router = express.Router();
 
-/* GET home page. */
+
 router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+  res.send('respond with questions');
 });
+
+router.get('/ask', function(req, res, next) {
+    res.send('respond with ask page');
+  });
+
 
 module.exports = router;

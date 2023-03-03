@@ -10,6 +10,7 @@ require('dotenv').config({ path: '../.env' });
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
+const questionsRouter = require('./routes/questions');
 
 const app = express();
 
@@ -41,5 +42,6 @@ app.use(cookieParser());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/questions', questionsRouter);
 
 module.exports = app;

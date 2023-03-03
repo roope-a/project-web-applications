@@ -4,6 +4,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import React, { useEffect, useState } from 'react';
 import QuestionsPage from './components/QuestionsPage';
 import QuestionPage from './components/QuestionPage';
+import AskPage from './components/AskPage';
 import RegisterPage from './components/RegisterPage';
 import UsersPage from './components/UsersPage';
 import LoginPage from './components/LoginPage';
@@ -51,7 +52,7 @@ const getDesignTokens = (mode) => ({
 function App() {
 
   // from https://mui.com/material-ui/customization/dark-mode/
-  const [mode, setMode] = React.useState('dark');
+  const [mode, setMode] = React.useState('light');
 
   const colorMode = React.useMemo(() => ({
 
@@ -90,11 +91,18 @@ function App() {
         <Router>
           <Routes>
             <Route path='/' element={<QuestionsPage />} />
+
             {/* needs to be like /questions/:id */}
             <Route path='/questions' element={<QuestionPage />} />
+            
+            {/* just for dev */}
+            <Route path='/questions/ask' element={<AskPage />} />
+            {/* <Route path='/questions/ask' element={!isAuthenticated ? <AskPage /> : <Navigate to='/' />} /> */}
+
             <Route path='/users/register' element={!isAuthenticated ? <RegisterPage /> : <Navigate to='/' />} />
             <Route path='/users/login' element={!isAuthenticated ? <LoginPage /> : <Navigate to='/' />} />
             <Route path='/users' element={<UsersPage />} />
+
             {/* needs to be like /users/:id/:name ?? */}
             <Route path='/users/profile' element={<ProfilePage />} />
             <Route path='*' element={<NotFound />} />
