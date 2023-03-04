@@ -3,7 +3,6 @@ const router = express.Router();
 const multer = require("multer");
 const storage = multer.memoryStorage();
 const upload = multer({ storage })
-const mongoose = require('mongoose');
 const passport = require('passport');
 const { body, validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');

@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 function AskButton() {
     return (
         <Box sx={{ pt: 2 }}>
-            <Button variant='contained' color='secondary' component={ Link } to='/'>
+            <Button variant='contained' color='secondary' component={ Link } to='/questions/ask'>
                 Ask Question
             </Button>
         </Box>

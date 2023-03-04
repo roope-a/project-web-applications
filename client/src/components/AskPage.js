@@ -1,4 +1,4 @@
-import { FormControl, FormLabel, Grid, List, ListItem, OutlinedInput, Paper, Typography } from '@mui/material';
+import { Button, FormControl, FormLabel, Grid, List, ListItem, Outlinedcontent, OutlinedInput, Paper, Typography } from '@mui/material';
 import { Box, Container } from '@mui/system';
 import React, { useState } from 'react';
 import Footer from './Footer';
@@ -10,14 +10,37 @@ import "./prism-tomorrow.css";
 
 const initialValue = [
     {
-      children: [
-        { text: 'This is editable plain text, just like a <textarea>!' },
-      ],
+        children: [
+            { text: 'This is editable plain text, just like a <textarea>!' },
+        ],
     },
-  ];
+];
 
 function ProfilePage() {
-    const [input, setInput] = useState(initialValue);
+    const [content, setContent] = useState(initialValue);
+    const [title, setTitle] = useState('');
+
+    const submit = (e) => {
+        e.preventDefault();
+        const authToken = localStorage.getItem('token');
+        if(!authToken) return;
+        const body = {title: title, content: content}
+        fetch('/questions/ask', {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+                'authorization': 'Bearer ' + authToken
+            },
+            body: JSON.stringify(body),
+            mode: 'cors'
+        })
+            .then(response => response.json())
+            .then((json) => {
+            }
+        );
+    };
+
+    // TODO, require X amount of content, and title
 
     return (
         <Box>
@@ -30,7 +53,7 @@ function ProfilePage() {
                         {/* <Box sx={{ width: 500, height: 80, backgroundColor: 'primary.dark', borderRadius: 1 }}>
                             <Typography align='left'>Title</Typography>
                             <FormControl>
-                                <OutlinedInput></OutlinedInput>
+                                <Outlinedcontent></Outlinedcontent>
                             </FormControl>
                         </Box> */}
 
@@ -64,8 +87,10 @@ function ProfilePage() {
                                 <Box sx={{ p: 3 }}>
                                     <Typography variant='h6' align='left'>Title</Typography>
                                     <FormControl fullWidth={true}>
-                                        <OutlinedInput margin={3} >
-
+                                        <OutlinedInput 
+                                        onChange={ setTitle }
+                                        margin={3}
+                                        id='title'>
                                         </OutlinedInput>
                                     </FormControl></Box>
                             </Paper>
@@ -73,13 +98,21 @@ function ProfilePage() {
                         <Grid item xs={8} >
                             <Paper>
 
-                                <Box sx={{ p: 3 }}>
+                                <Box sx={{ pt: 2, px: 2, m:1 }}>
                                     <Typography variant='h6' align='left'>What are the details of your problem?</Typography>
                                     {/* <Box sx={{ border: 1, borderRadius: 1, backgroundColor: 'white' }}> */}
 
-                                        <SlateEditor value={input} setValue={setInput}></SlateEditor>
+                                    <SlateEditor value={content} setValue={ setContent }></SlateEditor>
 
                                     {/* </Box>  */}
+                                    
+                                </Box>
+                                <Box p={2} display='flex' alignItems='flex-end' justifyContent='flex-end'>
+                                    <Button onClick={ submit }
+                                     variant='contained' 
+                                     color='secondary' 
+                                     align>Ask question
+                                    </Button>
                                 </Box>
                             </Paper>
                         </Grid>

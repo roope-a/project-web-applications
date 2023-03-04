@@ -1,5 +1,4 @@
 const passport = require('passport');
-const bcrypt = require('bcrypt');
 const User = require('../models/Users');
 const LocalStrategy = require('passport-local').Strategy;
 const JWTstrategy = require('passport-local').Strategy;
@@ -11,23 +10,6 @@ passport.use('signup', new LocalStrategy(
         passwordField: 'password',
         passReqToCallback: true
     }, async (req, email, password, done) => {
-
-        // try {
-        //     const displayName = req.body.displayName;
-        //     const registerDate = req.body.registerDate;
-
-        //     await User.findOne({ email: email }, (err, user) => {
-        //         if (user) {
-        //             return done(null, false, { message: 'E-mail already in use!' });
-        //         } else {
-        //             const user = User.create({ displayName: displayName, email: email, password: password, registerDate: registerDate });
-        //             return done(null, user);
-        //         }
-        //     });
-        // } catch (error) {
-        //     console.log(error);
-        //     return done(error);
-        // }
 
         try {
             const displayName = req.body.displayName;
