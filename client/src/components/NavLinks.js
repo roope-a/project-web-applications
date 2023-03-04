@@ -24,7 +24,8 @@ function NavLinks() {
     });
 
     return (
-        <List sx={{marginTop: 3}}>
+        
+        <List  sx={{marginTop: 3}}>
             <MenuItem component={RouterLink} to={'/'} {...buttonProps(0)}>
                 Home
             </MenuItem>

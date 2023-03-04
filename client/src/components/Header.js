@@ -175,54 +175,54 @@ function Header() {
 
 
     return (
-        <Box sx={{ flexGrow: 1, borderTop: 2, borderColor: theme.palette.accent }}>
-            <AppBar position='relative' sx={{ zIndex: theme.zIndex.drawer + 1 }}>
-                <Toolbar sx={{ justifyContent: 'space-between' }}>
+        <Box sx={{ flexGrow: 1 }}>
+            <AppBar position='fixed' sx={{ zIndex: theme.zIndex.drawer + 1 }}>
+                <Box sx={{ flexGrow: 1, borderTop: 2, borderColor: theme.palette.accent }}>
+                    <Toolbar sx={{ justifyContent: 'space-between' }}>
+                        <StyledIconButton
+                            color='inherit'
+                            aria-label='open drawer'
+                            onClick={handleDrawerOpen}
+                            edge='start'
+                            sx={{
+                                marginRight: 5,
+                                ...(open && { display: 'none' }),
+                            }}
+                        >
+                            <MenuIcon />
+                        </StyledIconButton>
+                        <StyledIconButton
+                            color='inherit'
+                            aria-label='open drawer'
+                            onClick={handleDrawerClose}
+                            edge='start'
+                            sx={{
+                                marginRight: 5,
+                                ...(!open && { display: 'none' }),
+                            }}
+                        >
+                            <ChevronLeftIcon />
+                        </StyledIconButton>
 
-                    <StyledIconButton
-                        color="inherit"
-                        aria-label="open drawer"
-                        onClick={handleDrawerOpen}
-                        edge="start"
-                        sx={{
-                            marginRight: 5,
-                            ...(open && { display: 'none' }),
-                        }}
-                    >
-                        <MenuIcon />
-                    </StyledIconButton>
-                    <StyledIconButton
-                        color="inherit"
-                        aria-label="open drawer"
-                        onClick={handleDrawerClose}
-                        edge="start"
-                        sx={{
-                            marginRight: 5,
-                            ...(!open && { display: 'none' }),
-                        }}
-                    >
-                        <ChevronLeftIcon />
-                    </StyledIconButton>
-
-                    <Search sx={{ flexGrow: 1 }}>
-                        <StyledInputBase fullWidth={true}
-                            placeholder='Search…'
-                            inputProps={{ 'aria-label': 'search' }}
-                        />
-                    </Search>
-                    {/* <Box sx={{ flexGrow: 1 }} /> */}
-                    <IconButton
-                        size='large'
-                        edge='end'
-                        aria-label='account of current user'
-                        aria-controls={menuId}
-                        aria-haspopup='true'
-                        onClick={handleProfileMenuOpen}
-                        color='inherit'
-                    >
-                        <AccountCircle />
-                    </IconButton>
-                    {/* <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+                        <Search sx={{ flexGrow: 1 }}>
+                            <StyledInputBase fullWidth={true}
+                                placeholder='Search…'
+                                inputProps={{ 'aria-label': 'search' }}
+                            />
+                        </Search>
+                        {/* <Box sx={{ flexGrow: 1 }} /> */}
+                        <IconButton
+                            size='large'
+                            edge='end'
+                            aria-label='account of current user'
+                            aria-controls={menuId}
+                            aria-haspopup='true'
+                            onClick={handleProfileMenuOpen}
+                            color='inherit'
+                        >
+                            <AccountCircle />
+                        </IconButton>
+                        {/* <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
                             <IconButton
                                 size='large'
                                 aria-label='show more'
@@ -234,11 +234,14 @@ function Header() {
                                 <MoreIcon />
                             </IconButton>
                         </Box> */}
-                </Toolbar>
+                    </Toolbar>
+                </Box>
             </AppBar>
-            <Drawer open={open} sx={{width: 'auto', [theme.breakpoints.up('md')]: {display: 'none'}, '& .MuiDrawer-paper': { width: 200, height:'auto', overflow: 'hidden'},}}>
-                <Toolbar/>
-                <NavLinks/>
+
+            <Toolbar />
+            <Drawer open={open} sx={{ width: 'auto', [theme.breakpoints.up('md')]: { display: 'none' }, '& .MuiDrawer-paper': { width: 200, height: 'auto', overflow: 'hidden' }, }}>
+                <Toolbar />
+                <NavLinks />
             </Drawer>
 
             {/* {renderMobileMenu} */}

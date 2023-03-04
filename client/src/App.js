@@ -33,7 +33,8 @@ const getDesignTokens = (mode) => ({
         secondary: {
           main: '#0A95FF',
         },
-        accent: '#FF5722'
+        accent: '#FF5722',
+        footer: '#232629'
       }
       // dark
       : {
@@ -43,7 +44,8 @@ const getDesignTokens = (mode) => ({
         secondary: {
           main: '#0A95FF',
         },
-        accent: '#FF5722'
+        accent: '#FF5722',
+        footer: '#232629'
       })
   },
 });

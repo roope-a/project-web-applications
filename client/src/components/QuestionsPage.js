@@ -27,6 +27,58 @@ function QuestionsPage() {
             tags: "test",
             author: "Admin",
             timestamp: "right not now"
+        }, {
+            title: "Testing1",
+            id: "123",
+            tags: "test",
+            author: "Admin",
+            timestamp: "right now"
+        },
+        {
+            title: "Testing2",
+            id: "1234",
+            tags: "test",
+            author: "Admin",
+            timestamp: "right not now"
+        }, {
+            title: "Testing1",
+            id: "123",
+            tags: "test",
+            author: "Admin",
+            timestamp: "right now"
+        },
+        {
+            title: "Testing2",
+            id: "1234",
+            tags: "test",
+            author: "Admin",
+            timestamp: "right not now"
+        }, {
+            title: "Testing1",
+            id: "123",
+            tags: "test",
+            author: "Admin",
+            timestamp: "right now"
+        },
+        {
+            title: "Testing2",
+            id: "1234",
+            tags: "test",
+            author: "Admin",
+            timestamp: "right not now"
+        }, {
+            title: "Testing1",
+            id: "123",
+            tags: "test",
+            author: "Admin",
+            timestamp: "right now"
+        },
+        {
+            title: "Testing2",
+            id: "1234",
+            tags: "test",
+            author: "Admin",
+            timestamp: "right not now"
         }
     ]
 
@@ -41,17 +93,20 @@ function QuestionsPage() {
     return (
         <PageBase>
             <Grid item xs>
-                <SubHeader title='All questions' />
-                <p align='left'>total questions</p>
-                {questions && questions.length > 0 && questions.map((question) => (
-                    <Question
-                        qTitle={question.title}
-                        id={question.id}
-                        tags={question.tags}
-                        author={question.author}
-                        timestamp={question.timestamp}
-                    />
-                ))}
+                <Box sx={{ borderLeft: 2, borderColor: 'divider' }}>
+                    <SubHeader title='All questions' />
+                    <p align='left'>total questions</p>
+
+                    {questions && questions.length > 0 && questions.map((question) => (
+                        <Question
+                            qTitle={question.title}
+                            id={question.id}
+                            tags={question.tags}
+                            author={question.author}
+                            timestamp={question.timestamp}
+                        />
+                    ))}
+                </Box>
             </Grid>
         </PageBase>
     );

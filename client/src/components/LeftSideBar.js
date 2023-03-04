@@ -8,6 +8,7 @@ import NavLinks from './NavLinks';
 
 const SideBar = styled(Box)(({ theme }) => ({
     width: 175,
+    // height: '1',
     [theme.breakpoints.down('md')]: {
         display: 'none',
     },
@@ -16,8 +17,10 @@ const SideBar = styled(Box)(({ theme }) => ({
 function LeftSideBar() {
     const theme = useTheme();
     return (
-    <SideBar sx={{ height: '100vh', borderRight: 2, borderColor: theme.palette.divider }}>
-        <NavLinks></NavLinks>
+    <SideBar position='relative' >
+            <Box position='fixed' sx={{ width: 175 }}>
+                <NavLinks />
+            </Box>
         </SideBar>
     );
 }
