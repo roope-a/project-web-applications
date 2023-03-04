@@ -95,7 +95,7 @@ function App() {
             <Route path='/' element={<QuestionsPage />} />
 
             {/* needs to be like /questions/:id */}
-            <Route path='/questions' element={<QuestionPage />} />
+            <Route path='/questions/:id' element={<QuestionPage />} />
             
             {/* just for dev */}
             <Route path='/questions/ask' element={<AskPage />} />

@@ -5,7 +5,7 @@ import AskButton from './AskButton'
 
 function SubHeader({title}) {
     return (
-        <Box sx={{ p: 1 }}>
+        <Box sx={{ p: 3 }}>
             <Grid container spacing={0} alignItems='flex-start'>
                 <Grid item xs={7}>
                     <Typography>

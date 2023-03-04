@@ -4,38 +4,59 @@ const validateToken = require('../auth/validateToken');
 const mongoose = require('mongoose');
 
 const Post = require('../models/Posts');
+const Comment = require('../models/Comments');
 const User = require('../models/Users');
 
 router.get('/', (req, res, next) => {
   res.send('respond with questions');
 });
 
+
 // TODO validate token before posting
 
 router.post('/ask', validateToken, async (req, res, next) => {
 
-  // const items = req.body.items;
+  try {
+    const _id = new mongoose.Types.ObjectId(req.user._id);
+    const post = await Post.create({ user: _id, title: req.body.title.title, content: req.body.content });
+  } catch (error) {
 
-  // console.log('were here first');
-  console.log(req.body.title);
-  // console.log(req.user._id);
+  }
+});
 
-  // find user by ????
+router.get('/:id', async (req, res, next) => {
 
-  const _id = new mongoose.Types.ObjectId(req.user._id);
-  
-  // console.log(User.find({'_id': _id}))
+  try {
+    const post = await Post.findOne({ _id: req.params.id })
+    res.json(post);
+  } catch (error) {
+    throw error;
+  }
+});
 
-  // req.user._id
+router.get('/:id/comments', async (req, res, next) => {
 
-  // save the post
-  
-  const post = await Post.create({user: _id, title: req.body.title, content: req.body.content});
+  console.log(req.params.id)
+  try {
+    const _idPost = new mongoose.Types.ObjectId(req.params.id);
+    const comments = await Comment.find({ postId: _idPost })
+    console.log(comments)
+    res.json(comments);
+  } catch (error) {
+    throw error;
+  }
+});
 
-  console.log(post)
+router.post('/:id/comments', validateToken, async (req, res, next) => {
 
-    res.send('respond with ask page');
-  });
+  try {
+    const _idUser = new mongoose.Types.ObjectId(req.user._id);
+    const _idPost = new mongoose.Types.ObjectId(req.body.postID);
+    const comment = await Comment.create({ user: _idUser, postId: _idPost, content: req.body.content })
+  } catch (error) {
+    throw error;
+  }
+});
 
 
 module.exports = router;

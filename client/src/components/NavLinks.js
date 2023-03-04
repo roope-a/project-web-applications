@@ -8,10 +8,6 @@ import { purple } from '@mui/material/colors';
 function NavLinks() {
     const theme = useTheme();
 
-    const location = useLocation();
-
-    console.log(location)
-
     //TODO fix the border highlight
 
     const [selectedIndex, setSelectedIndex] = React.useState();

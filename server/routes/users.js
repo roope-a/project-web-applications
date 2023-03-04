@@ -6,14 +6,20 @@ const upload = multer({ storage })
 const passport = require('passport');
 const { body, validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
+const User = require('../models/Users');
 
 
 router.get('/', (req, res, next) => {
   res.send('respond with a resource');
 });
 
-router.get('/profile/:id', (req, res, next) => {
-  res.send('respond with a resource');
+router.get('/:id', async (req, res, next) => {
+  try {
+    const post = await User.findOne({ _id: req.params.id })
+    res.json(post);
+  } catch(error) {
+    throw error;
+  }
 });
 
 router.post('/register',

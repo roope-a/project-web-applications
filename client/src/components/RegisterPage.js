@@ -58,7 +58,6 @@ function RegisterPage() {
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.id]: e.target.value });
-        console.log(formData)
         setIsError({...isError, [e.target.id]: false});
     };
 

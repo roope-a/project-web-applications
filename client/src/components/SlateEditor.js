@@ -28,12 +28,6 @@ import 'prismjs/components/prism-php'
 import 'prismjs/components/prism-sql'
 import 'prismjs/components/prism-java'
 
-// import decorateCodeFunc from './utils/CodeBlock'
-
-const ParagraphType = 'paragraph'
-const CodeBlockType = 'code-block'
-const CodeLineType = 'code-line'
-
 // https://codesandbox.io/s/rich-text-editor-with-slate-and-material-ui-tuhll?file=/src/App.js:266-299
 
 const HOTKEYS = {
@@ -45,9 +39,9 @@ const HOTKEYS = {
 
 const pushString = (token, path, start, ranges, tokenType = 'text') => {
     ranges.push({
-      prismToken: tokenType,
-      anchor: { path, offset: start },
-      focus: { path, offset: start + token.length }
+        prismToken: tokenType,
+        anchor: { path, offset: start },
+        focus: { path, offset: start + token.length }
     });
     start += token.length;
     return start;
@@ -56,23 +50,23 @@ const pushString = (token, path, start, ranges, tokenType = 'text') => {
 const recurseTokenize = (token, path, ranges, start, parentTag) => {
     // Uses the parent's token type if a Token only has a string as its content
     if (typeof token === "string") {
-      return pushString(token, path, start, ranges, parentTag);
+        return pushString(token, path, start, ranges, parentTag);
     }
     if ("content" in token) {
-      // Calls recurseTokenize on nested Tokens in content
-      for (const subToken of token.content) {
-        start = recurseTokenize(subToken, path, ranges, start, token.type);
-      }
-      return start;
+        // Calls recurseTokenize on nested Tokens in content
+        for (const subToken of token.content) {
+            start = recurseTokenize(subToken, path, ranges, start, token.type);
+        }
+        return start;
     }
 };
 
 const decorateCodeFunc = (editor, [node, path]) => {
     const ranges = [];
     if (!Text.isText(node)) {
-      return ranges;
+        return ranges;
     }
-  
+
     // You can use this to specify a language like in the gif if you add a bit of logic
     let language = "html"; // node.text.split("\n")[0]; uses first line as language
     // let lang_aliases = { html: "markup" };
@@ -82,17 +76,17 @@ const decorateCodeFunc = (editor, [node, path]) => {
     // if (!(language in components.languages)) {
     //   return ranges;
     // }
-  
+
     // If you wanna import dynamically use this line, but beware the massive import (211 KB!!)
     // require(`prismjs/components/prism-${language}`)
     const tokens = Prism.tokenize(node.text, Prism.languages[language]);
-  
+
     let start = 0;
     for (const token of tokens) {
-      start = recurseTokenize(token, path, ranges, start);
+        start = recurseTokenize(token, path, ranges, start);
     }
     return ranges;
-  };
+};
 
 const RichEditor = ({ value, setValue }) => {
 
@@ -106,8 +100,7 @@ const RichEditor = ({ value, setValue }) => {
         // This may be where the performance issues come from
         (props) => decorateCodeFunc(editor, props),
         [editor]
-      );
-    
+    );
     return (
         <Box p={1} border={1} borderRadius={1}>
             <Slate
@@ -148,6 +141,7 @@ const RichEditor = ({ value, setValue }) => {
                 </Toolbar>
                 <Box pl={1}>
                     <Editable
+                        style={{minHeight: 300}}
                         decorate={decorateCode}
                         renderElement={renderElement}
                         renderLeaf={renderLeaf}
@@ -170,7 +164,33 @@ const RichEditor = ({ value, setValue }) => {
     );
 };
 
-export const Element = ({ props, attributes, children, element }) => {
+export const ReadOnly = ({ value }) => {
+    const editor = useMemo(() => withReact(createEditor()), [])
+    const renderElement = useCallback(props => <Element {...props} />, []);
+
+    const renderLeaf = useCallback(props => <Leaf {...props} />, []);
+    const decorateCode = useCallback(
+        // This may be where the performance issues come from
+        (props) => decorateCodeFunc(editor, props),
+        [editor]
+    );
+    editor.children = value;
+    return (
+        <Slate
+            editor={editor}
+            value={value}>
+            <Editable
+                decorate={decorateCode}
+                renderElement={renderElement}
+                renderLeaf={renderLeaf}
+                readOnly
+                placeholder="Enter some plain text..." />
+        </Slate>
+    )
+}
+
+export const Element = ({ attributes, children, element }) => {
+    const textAlign = 'left';
     switch (element.type) {
         case 'block-quote':
             return <blockquote {...attributes}>{children}</blockquote>;
@@ -187,20 +207,20 @@ export const Element = ({ props, attributes, children, element }) => {
         case 'code-block':
             return (
                 <pre
-                  className='code-block'
-                  {...attributes}
-                  style={{
-                    backgroundColor: 'black',
-                    borderRadius: '5px',
-                    padding: '12px',
-                    tabSize: '4'
-                  }}
+                    className='code-block'
+                    {...attributes}
+                    style={{
+                        backgroundColor: 'black',
+                        borderRadius: '5px',
+                        padding: '12px',
+                        tabSize: '4'
+                    }}
                 >
-                  <code>{children}</code>
+                    <code>{children}</code>
                 </pre>
-              );
+            );
         default:
-            return <p {...attributes}>{children}</p>;
+            return <p style={{ textAlign }} {...attributes}>{children}</p>;
     }
 };
 

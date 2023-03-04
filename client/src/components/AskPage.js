@@ -3,9 +3,9 @@ import { Box, Container } from '@mui/system';
 import React, { useState } from 'react';
 import Footer from './Footer';
 import Header from './Header';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import SlateEditor from './SlateEditor';
+import RichEditor from './SlateEditor';
 
+// does this do anything
 import "./prism-tomorrow.css";
 
 const initialValue = [
@@ -16,7 +16,8 @@ const initialValue = [
     },
 ];
 
-function ProfilePage() {
+function AskPage() {
+
     const [content, setContent] = useState(initialValue);
     const [title, setTitle] = useState('');
 
@@ -25,6 +26,7 @@ function ProfilePage() {
         const authToken = localStorage.getItem('token');
         if(!authToken) return;
         const body = {title: title, content: content}
+        console.log(body)
         fetch('/questions/ask', {
             method: 'POST',
             headers: {
@@ -38,6 +40,11 @@ function ProfilePage() {
             .then((json) => {
             }
         );
+    };
+
+    const handleChange = (e) => {
+        setTitle({ ...title, [e.target.id]: e.target.value });
+        // setIsError({...isError, [e.target.id]: false});
     };
 
     // TODO, require X amount of content, and title
@@ -88,7 +95,7 @@ function ProfilePage() {
                                     <Typography variant='h6' align='left'>Title</Typography>
                                     <FormControl fullWidth={true}>
                                         <OutlinedInput 
-                                        onChange={ setTitle }
+                                        onChange={ handleChange }
                                         margin={3}
                                         id='title'>
                                         </OutlinedInput>
@@ -102,7 +109,7 @@ function ProfilePage() {
                                     <Typography variant='h6' align='left'>What are the details of your problem?</Typography>
                                     {/* <Box sx={{ border: 1, borderRadius: 1, backgroundColor: 'white' }}> */}
 
-                                    <SlateEditor value={content} setValue={ setContent }></SlateEditor>
+                                    <RichEditor value={content} setValue={ setContent }></RichEditor>
 
                                     {/* </Box>  */}
                                     
@@ -124,4 +131,4 @@ function ProfilePage() {
     );
 }
 
-export default ProfilePage;
+export default AskPage;
