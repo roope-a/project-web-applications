@@ -8,7 +8,6 @@ import { useNavigate } from 'react-router-dom';
 
 // does this do anything
 import "./prism-tomorrow.css";
-import { Navigate } from 'react-router-dom';
 
 const initialValue = [
     {
