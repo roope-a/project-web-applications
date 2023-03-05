@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
-const ObjectId = mongoose.Types.ObjectId;
 const Schema = mongoose.Schema;
+const ObjectId = Schema.Types.ObjectId;
 
 let userSchema = new Schema ({
     displayName: {type: String},

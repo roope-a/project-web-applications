@@ -8,8 +8,8 @@ function SubHeader({title}) {
         <Box sx={{ p: 3 }}>
             <Grid container spacing={0} alignItems='flex-start'>
                 <Grid item xs={7}>
-                    <Typography>
-                        <h1 align='left'>{ title }</h1>
+                    <Typography align='left' variant='h4'>
+                        { title }
                     </Typography>
                 </Grid>
                 <Grid item xs={5}><AskButton /></Grid>

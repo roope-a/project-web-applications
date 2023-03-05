@@ -106,7 +106,7 @@ function App() {
             <Route path='/users' element={<UsersPage />} />
 
             {/* needs to be like /users/:id/:name ?? */}
-            <Route path='/users/profile' element={<ProfilePage />} />
+            <Route path='/users/profile/:id' element={<ProfilePage />} />
             <Route path='*' element={<NotFound />} />
           </Routes>
         </Router>
