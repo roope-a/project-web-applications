@@ -10,9 +10,7 @@ module.exports = function(req, res, next) {
     }
     if(token == null) { return res.sendStatus(401) };
     jwt.verify(token, process.env.SECRET, (err, user) => {
-        if(err) return res.sendStatus(401);
-        console.log('valid')
-        console.log(user)
+        if(err) { return res.sendStatus(401) };
         req.user = user;
         next();
     });

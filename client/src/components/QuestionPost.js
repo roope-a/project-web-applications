@@ -29,13 +29,15 @@ function Post() {
 
     const [content, setContent] = useState(value);
     const [votes, setVotes] = useState(0);
+    const [author, setAuthor] = useState(0);
 
     useEffect(() => {
         fetch('/questions/'+id)
         .then(response => response.json())
         .then(json => {
-            setContent(json.content)
-            setVotes(json.votes)
+            setAuthor(json.user);
+            setContent(json.content);
+            setVotes(json.votes);
         })
             
         .catch((error) => {
@@ -63,7 +65,7 @@ function Post() {
                 </Grid>
             </Grid>
             <Box sx={{ pr: 3 }}>
-                <p align='right'>meta info</p>
+                <Typography align='right' >{ author }</Typography>
             </Box>
         </Box>
     );

@@ -12,19 +12,63 @@ import { CssBaseline } from '@mui/material';
 import ProfilePage from './components/ProfilePage';
 import NotFound from './components/NotFound';
 
-const getDesignTokens = (mode) => ({
-  components: {
-    MuiToolbar: {
-      styleOverrides: {
-        root: {
-          // height: 56
-        }
-      }
-    }
-  },
-  palette: {
-    mode,
-    ...(mode === 'light'
+// const getDesignTokens = (mode) => ({
+//   components: {
+//     MuiToolbar: {
+//       styleOverrides: {
+//         root: {
+//           // height: 56
+//         }
+//       }
+//     }
+//   },
+//   palette: {
+//     mode,
+//     ...(mode === 'light'
+//       // light
+//       ? {
+//         primary: {
+//           main: '#F8F9F9',
+//         },
+//         secondary: {
+//           main: '#0A95FF',
+//         },
+//         accent: '#FF5722',
+//         footer: '#232629'
+//       }
+//       // dark
+//       : {
+//         background: {
+//           default: '#757575'
+//         },
+//         secondary: {
+//           main: '#0A95FF',
+//         },
+//         accent: '#FF5722',
+//         footer: '#232629'
+//       })
+//   },
+// });
+
+// from https://mui.com/material-ui/customization/dark-mode/
+
+export default function ToggleColorMode() {
+  const [mode, setMode] = useState('light');
+  const colorMode = React.useMemo(
+    () => ({
+      toggleColorMode: () => {
+        setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
+      },
+    }),
+    [],
+  );
+
+  const theme = React.useMemo(
+    () =>
+    createTheme({
+      palette: {
+        mode,
+        ...(mode === 'light'
       // light
       ? {
         primary: {
@@ -47,59 +91,62 @@ const getDesignTokens = (mode) => ({
         accent: '#FF5722',
         footer: '#232629'
       })
-  },
-});
+      },
+    }),
+  [mode],
+);
 
+  return (
+    <ColorModeContext.Provider value={colorMode}>
+      <ThemeProvider theme={theme}>
+        <App />
+      </ThemeProvider>
+    </ColorModeContext.Provider>
+  );
+};
+
+const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
 
 function App() {
 
-  // from https://mui.com/material-ui/customization/dark-mode/
-  const [mode, setMode] = React.useState('light');
-
-  const colorMode = React.useMemo(() => ({
-
-    // The dark mode switch would invoke this method
-    toggleColorMode: () => {
-      setMode((prevMode) =>
-        prevMode === 'light' ? 'dark' : 'light',
-      );
-    },
-  }),
-    [],
-  );
-
-  // Update the theme only if the mode changes
-  const theme = React.useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
-
-  // False is only for devving 
   const [isAuthenticated, setIsAuthenticated] = useState((false));
 
-  const setAuth = (value) => {
-    setIsAuthenticated(value);
-  };
-
-  //FIX ME, add checking that token is valid!
+  useEffect(() => {
+    if (localStorage.getItem('token')) {
+      const authToken = localStorage.getItem('token');
+      fetch('/validate', {
+        headers: {
+          'Content-type': 'application/json',
+          'authorization': 'Bearer ' + authToken
+      },
+      })
+            .then(response => response.json())
+            .then(json => {
+              if (json.success === true ) {
+                setIsAuthenticated(json.success)
+                localStorage.setItem('auth', json.success);
+            }
+            })
+            .catch((error) => {
+            });
+    }
+  }, []);
 
   // useEffect(() => {
-  //   if (localStorage.getItem('token')) {
-  //     setAuth(true)
-  //   }
+  //   localStorage.setItem('auth', isAuthenticated);
   // }, []);
 
   return (
-    <div className="App">
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
+    // <div className="App">
+      // <ThemeProvider theme={theme}>
+        // <CssBaseline />
         <Router>
           <Routes>
             <Route path='/' element={<QuestionsPage />} />
 
-            {/* needs to be like /questions/:id */}
             <Route path='/questions/:id' element={<QuestionPage />} />
             
-            {/* just for dev */}
-            <Route path='/questions/ask' element={<AskPage />} />
-            {/* <Route path='/questions/ask' element={!isAuthenticated ? <AskPage /> : <Navigate to='/' />} /> */}
+            <Route path='/questions/ask' element={isAuthenticated ? <AskPage /> : <Navigate to='/users/login' />} />
 
             <Route path='/users/register' element={!isAuthenticated ? <RegisterPage /> : <Navigate to='/' />} />
             <Route path='/users/login' element={!isAuthenticated ? <LoginPage /> : <Navigate to='/' />} />
@@ -110,9 +157,9 @@ function App() {
             <Route path='*' element={<NotFound />} />
           </Routes>
         </Router>
-      </ThemeProvider>
-    </div>
+      // </ThemeProvider>
+    // </div>
   );
 }
 
-export default App;
+// export default App;

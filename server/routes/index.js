@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
+const validateToken = require('../auth/validateToken');
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+router.get('/validate', validateToken, (req, res, next) => {
+  res.json({ success: true })
 });
 
 module.exports = router;

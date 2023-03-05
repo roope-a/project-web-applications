@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -16,7 +16,7 @@ import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import { useTheme } from '@mui/material/styles';
-import { Collapse, Drawer, List, ListItem } from '@mui/material';
+import { Button, Collapse, Drawer, List, ListItem } from '@mui/material';
 import LeftSideBar from './LeftSideBar';
 
 // AppBar design from https://mui.com/material-ui/react-app-bar/
@@ -24,6 +24,7 @@ import LeftSideBar from './LeftSideBar';
 
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NavLinks from './NavLinks';
+import { Link } from 'react-router-dom';
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -67,6 +68,11 @@ function Header() {
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+
+    const [isAuthenticated, setIsAuthenticated] = useState((false));
+    useEffect(() => {
+        setIsAuthenticated(localStorage.getItem('auth'));
+    }, []);
 
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -206,22 +212,39 @@ function Header() {
 
                         <Search sx={{ flexGrow: 1 }}>
                             <StyledInputBase fullWidth={true}
-                                placeholder='Search…'
+                            placeholder={'Search… Doesn\'t work'}
                                 inputProps={{ 'aria-label': 'search' }}
                             />
                         </Search>
                         {/* <Box sx={{ flexGrow: 1 }} /> */}
-                        <IconButton
-                            size='large'
-                            edge='end'
-                            aria-label='account of current user'
-                            aria-controls={menuId}
-                            aria-haspopup='true'
-                            onClick={handleProfileMenuOpen}
-                            color='inherit'
-                        >
-                            <AccountCircle />
-                        </IconButton>
+                        {isAuthenticated && (
+                            <div>
+                                <IconButton
+                                    size='large'
+                                    edge='end'
+                                    aria-label='account of current user'
+                                    aria-controls={menuId}
+                                    aria-haspopup='true'
+                                    onClick={handleProfileMenuOpen}
+                                    color='inherit'
+                                >
+                                    <AccountCircle />
+                                </IconButton>
+                            </div>
+                        )}
+
+                        {!isAuthenticated && (
+                                <div>
+                                        <Button variant='contained' color='secondary' component={Link} to='/users/register'>
+                                            Register
+                                        </Button>
+                                        <Button sx={{ ml: 1 }} variant='contained' color='secondary' component={Link} to='/users/login'>
+                                            Login
+                                        </Button>
+                                </div>
+                            )
+                        }
+
                         {/* <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
                             <IconButton
                                 size='large'

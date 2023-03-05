@@ -38,10 +38,12 @@ function RegisterPage() {
             
                 } else {
                     console.log()
-                    // if (json.success === true ) {
-                    //     localStorage.setItem('auth', json.token);
-                    //     navigate('/');
-                    // }
+                    if (json.success === true ) {
+                        localStorage.setItem('auth', json.token);
+                        localStorage.setItem('auth', true);
+                        window.location.reload();
+                        navigate('/');
+                    }
                 }
             }
         );
@@ -130,7 +132,7 @@ function RegisterPage() {
                     </Paper>
                     <Box sx={{ mt: 2, }}>
                         Already have an account?
-                        <Link component={RouterLink} to='/users/login' underline='none' marginLeft={1}>Log in</Link>
+                        <Link component={RouterLink} to='/users/login' color='secondary' underline='none' marginLeft={1}>Log in</Link>
                     </Box>
                 </Grid>
             </Box>

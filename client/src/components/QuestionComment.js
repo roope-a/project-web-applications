@@ -1,9 +1,9 @@
-import { Grid, IconButton, Typography } from '@mui/material';
+import { Grid, IconButton, Link, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import React, { useEffect, useState } from 'react';
 import { useTheme } from '@mui/material/styles';
-import { useParams } from 'react-router-dom'
 import { ReadOnly } from './SlateEditor';
+import { Link as RouterLink } from 'react-router-dom';
 
 import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
 import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
@@ -22,18 +22,9 @@ let value = [
   ]
 
 
-function Comment({ postContent , postVotes }) {
+function Comment({ postContent , postVotes, author, authorId, timestamp }) {
     
     const theme = useTheme();
-    const {id} = useParams();
-
-    const [content, setContent] = useState(value);
-    const [votes, setVotes] = useState(0);
-
-    useEffect(() => {
-        setContent(postContent);
-        setVotes(postVotes);
-    }, [])
 
     return (
         <Box sx={{ borderTop: 1, borderColor: theme.palette.divider, m: 3, pt: 2 }}>
@@ -43,18 +34,20 @@ function Comment({ postContent , postVotes }) {
                         <IconButton >
                             <KeyboardDoubleArrowUpIcon color='success' fontSize='large'/>
                         </IconButton>
-                        <Typography align='center'>{ votes }</Typography>
+                        <Typography align='center'>{ postVotes }</Typography>
                         <IconButton >
                             <KeyboardDoubleArrowDownIcon fontSize='large' />
                         </IconButton>
                         </Box>
                     </Grid>
                 <Grid item xs={10} md={11}>
-                    <ReadOnly value={ content }></ReadOnly>
+                    <ReadOnly value={ postContent }></ReadOnly>
                 </Grid>
             </Grid>
             <Box sx={{ pr: 3 }}>
-                <p align='right'>meta info</p>
+                {/* <Typography align='right' ><Link color='secondary' component={RouterLink} to={'/users/'+authorId} >{ author }</Link></Typography> */}
+                <Typography align='right'>{ author }</Typography>
+                <Typography align='right'>Commented { timestamp }</Typography>
             </Box>
         </Box>
     );

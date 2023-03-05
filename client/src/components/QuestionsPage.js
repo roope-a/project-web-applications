@@ -13,9 +13,6 @@ import { useTheme } from '@mui/material/styles';
 
         const PER_PAGE = 10;
 
-        const location = useLocation();
-        const query = new URLSearchParams(location.search);
-
         const [questions, setQuestions] = useState([]);
         const [currentPage, setCurrentPage] = useState(1);
         const [pages, setPages] = useState(1);
@@ -25,18 +22,18 @@ import { useTheme } from '@mui/material/styles';
             fetch('/questions')
                 .then(response => response.json())
                 .then(json => {
-                    setQuestions(json)
+                    setQuestions(json);
+                    setPages(Math.ceil(json.length / PER_PAGE));
                 })
                 .catch((error) => {
                 });
         }, []);
 
         useEffect(() => {
-            setPages(questions.length % PER_PAGE);
             const begin = (currentPage - 1) * PER_PAGE;
             const end = begin + PER_PAGE;
             setPosts(questions.slice(begin, end));
-        }, [questions, posts]);
+        }, [questions, currentPage]);
 
         const handleChange = (e, page) => {
             const pageNumber = Math.max(1, page);
@@ -45,7 +42,7 @@ import { useTheme } from '@mui/material/styles';
             // previous page 
             setCurrentPage(currentPage => Math.max(currentPage - 1, 1));
             // jump to x page
-            setCurrentPage(currentPage => Math.min(pageNumber, pages));
+            setCurrentPage(() => Math.min(pageNumber, pages));
         };
 
         return (

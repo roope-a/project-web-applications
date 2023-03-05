@@ -22,7 +22,7 @@ function NavLinks() {
     return (
         
         <List  sx={{marginTop: 3}}>
-            <MenuItem component={RouterLink} to={'/'} {...buttonProps(0)}>
+            <MenuItem component={RouterLink} to={'/'} {...buttonProps(0)} sx={{borderRight: 2, borderColor: theme.palette.accent}}>
                 Home
             </MenuItem>
             <MenuItem>
@@ -35,7 +35,7 @@ function NavLinks() {
                     </ListItemButton> */}
                     Questions
                 </MenuItem>
-                <MenuItem component={RouterLink} to={'/users'} sx={{borderRight: 2, borderColor: theme.palette.accent}}>
+                <MenuItem component={RouterLink} to={'/users'} sx={{borderColor: theme.palette.accent}}>
                     Users
                 </MenuItem>
             </List>

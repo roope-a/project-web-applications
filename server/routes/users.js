@@ -9,8 +9,21 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/Users');
 const Post = require('../models/Posts');
 
-router.get('/', (req, res, next) => {
-  res.send('respond with a resource');
+router.get('/', async (req, res, next) => {
+  try {
+  const users = await User.find({}).then((users) => {
+    const temp = [];
+    users.forEach((user) => {
+      temp.push({
+        displayName: user.displayName,
+      })
+    });
+    return users;
+  });
+  res.json(users);
+} catch {
+  throw error;
+}
 });
 
 router.get('/profile/:id/posts', async (req, res, next) => {
@@ -78,8 +91,7 @@ router.post('/register',
   async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      console.log(errors)
-      return res.status(400).json({ error: errors.array() });
+      return res.status(403).json({ error: errors.array() });
     };
 
     passport.authenticate('signup', { session: false }, (err, user, info) => {
@@ -110,10 +122,10 @@ router.post('/login',
     passport.authenticate('login', async (err, user, info) => {
       try {
         const errors = validationResult(req);
+        console.log(user)
         if (!errors.isEmpty()) {
           return res.status(403).json({ error: errors.array() });
         };
-
         if (err || !user) {
           return res.status(403).json({ error: [{ param: 'both' }]})
         };

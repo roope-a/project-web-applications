@@ -24,12 +24,14 @@ function LoginPage() {
         })
             .then(response => response.json())
             .then((json) => {
+                console.log(json)
                 if (json.hasOwnProperty('error')) {
-                    
                     setIsError({...isError, [json.error[0].param]: true})
                 } else {
                     if (json.success === true ) {
                         localStorage.setItem('token', json.token);
+                        localStorage.setItem('auth', true);
+                        window.location.reload();
                         navigate('/');
                     }
                 }
@@ -102,12 +104,12 @@ function LoginPage() {
                             </Grid>
                         </Box>
                     </Paper>
-                    <Box sx={{ mt: 2, }}>
-                        <Link component={RouterLink} to='/' underline='none'>Forgot your password?</Link>
-                    </Box>
+                    {/* <Box sx={{ mt: 2, }}>
+                        <Link component={RouterLink} to='/' color='secondary' underline='none'>Forgot your password?</Link>
+                    </Box> */}
                     <Box sx={{ mt: 2, }}>
                         Don't have an account?
-                        <Link component={RouterLink} to='/users/register' underline='none' marginLeft={1}>Register here</Link>
+                        <Link component={RouterLink} to='/users/register' color='secondary' underline='none' marginLeft={1}>Register here</Link>
                     </Box>
                 </Grid>
             </Box>

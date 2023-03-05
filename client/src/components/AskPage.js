@@ -1,12 +1,14 @@
 import { Button, FormControl, FormLabel, Grid, List, ListItem, Outlinedcontent, OutlinedInput, Paper, Typography } from '@mui/material';
 import { Box, Container } from '@mui/system';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Footer from './Footer';
 import Header from './Header';
 import RichEditor from './SlateEditor';
+import { useNavigate } from 'react-router-dom';
 
 // does this do anything
 import "./prism-tomorrow.css";
+import { Navigate } from 'react-router-dom';
 
 const initialValue = [
     {
@@ -18,14 +20,16 @@ const initialValue = [
 
 function AskPage() {
 
+    const navigate = useNavigate();
+    // const [isAuthenticated, setIsAuthenticated] = useState((false));
     const [content, setContent] = useState(initialValue);
     const [title, setTitle] = useState('');
 
     const submit = (e) => {
         e.preventDefault();
         const authToken = localStorage.getItem('token');
-        if(!authToken) return;
-        const body = {title: title, content: content}
+        if (!authToken) return;
+        const body = { title: title, content: content }
         console.log(body)
         fetch('/questions/ask', {
             method: 'POST',
@@ -38,9 +42,17 @@ function AskPage() {
         })
             .then(response => response.json())
             .then((json) => {
+                if (json.success === true) {
+                    navigate('/questions/'+json.id)
+                }   
             }
-        );
+            );
     };
+
+    const [isAuthenticated, setIsAuthenticated] = useState((false));
+    useEffect(() => {
+        setIsAuthenticated(localStorage.getItem('auth'));
+    }, []);
 
     const handleChange = (e) => {
         setTitle({ ...title, [e.target.id]: e.target.value });
@@ -94,10 +106,10 @@ function AskPage() {
                                 <Box sx={{ p: 3 }}>
                                     <Typography variant='h6' align='left'>Title</Typography>
                                     <FormControl fullWidth={true}>
-                                        <OutlinedInput 
-                                        onChange={ handleChange }
-                                        margin={3}
-                                        id='title'>
+                                        <OutlinedInput
+                                            onChange={handleChange}
+                                            margin={3}
+                                            id='title'>
                                         </OutlinedInput>
                                     </FormControl></Box>
                             </Paper>
@@ -105,20 +117,21 @@ function AskPage() {
                         <Grid item xs={8} >
                             <Paper>
 
-                                <Box sx={{ pt: 2, px: 2, m:1 }}>
+                                <Box sx={{ pt: 2, px: 2, m: 1 }}>
                                     <Typography variant='h6' align='left'>What are the details of your problem?</Typography>
                                     {/* <Box sx={{ border: 1, borderRadius: 1, backgroundColor: 'white' }}> */}
 
-                                    <RichEditor value={content} setValue={ setContent }></RichEditor>
+                                    <RichEditor value={content} setValue={setContent}></RichEditor>
 
                                     {/* </Box>  */}
-                                    
+
                                 </Box>
                                 <Box p={2} display='flex' alignItems='flex-end' justifyContent='flex-end'>
-                                    <Button onClick={ submit }
-                                     variant='contained' 
-                                     color='secondary' 
-                                     align>Ask question
+                                    <Button onClick={submit}
+                                        variant='contained'
+                                        color='secondary'
+                                        disabled={ isAuthenticated ? false : true}
+                                    >Ask question
                                     </Button>
                                 </Box>
                             </Paper>

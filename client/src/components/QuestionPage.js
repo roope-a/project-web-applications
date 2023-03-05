@@ -8,7 +8,8 @@ import SubHeader from './SubHeader';
 import RichEditor from './SlateEditor';
 import { useParams } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
-
+import { useNavigate } from 'react-router-dom';
+import moment from 'moment';
 
 const initialValue = [
     {
@@ -22,6 +23,7 @@ function QuestionPage() {
 
     const theme = useTheme();
     const { id } = useParams();
+    const navigate = useNavigate();
 
     const [content, setContent] = useState(initialValue);
     // const [postContent, setPostContent] = useState(initialValue);
@@ -59,7 +61,6 @@ function QuestionPage() {
         const authToken = localStorage.getItem('token');
         if (!authToken) return;
         const body = { postID: postID, content: content }
-        console.log(body)
         fetch('/questions/:id/comments', {
             method: 'POST',
             headers: {
@@ -71,14 +72,17 @@ function QuestionPage() {
         })
             .then(response => response.json())
             .then((json) => {
+                if (json.success === true) {
+                    window.location.reload();
+                }   
             }
             );
     };
 
-    // TODO make the voting buttons work
-    // needs backend too, fuck
-
-    // TODO add refresh page on comment post 
+    const [isAuthenticated, setIsAuthenticated] = useState((false));
+    useEffect(() => {
+        setIsAuthenticated(localStorage.getItem('auth'));
+    }, []);
 
     return (
         <PageBase>
@@ -86,37 +90,38 @@ function QuestionPage() {
                 <Box sx={{ borderLeft: 2, borderColor: 'divider' }}>
                     <SubHeader title={title} />
                     <Typography p={3} align='left'>
-                        Asked {date}
+                        Asked { moment(new Date(date)).fromNow() }
                     </Typography>
 
                     {/* // main post  */}
                     <Post></Post>
                     {/* <Comment postContent={ post.content } postVotes={ post.votes }  ></Comment> */}
 
-                    <Typography p={3}>
-                        <h4 align='left'>Answers</h4>
+                    <Typography p={3} align='left' variant='h6'>
+                        Answers
                     </Typography>
 
                     {/* comments */}
 
                     {comments && comments.length > 0 && comments.map((comment, index) => (
                         <React.Fragment key={index}>
-                            <Comment postContent={comment.content} postVotes={comment.votes}></Comment>
+                            <Comment postContent={comment.content} postVotes={comment.votes} authorId={comment.userId} author={comment.user} timestamp={moment(new Date(comment.createdAt)).fromNow()}></Comment>
                         </React.Fragment>
                     ))}
 
                     {/* Conditional rendering for this */}
 
                     <Box sx={{ borderTop: 1, borderColor: theme.palette.divider, m: 3, pt: 2 }}>
-                        <Typography>
-                            <h4 align='left'>Your answer</h4>
+                        <Typography py={2} align='left' variant='h5'>
+                            Your answer
                         </Typography>
                         <RichEditor value={content} setValue={setContent} placeholder='Your answer here...'></RichEditor>
                         <Box p={2} display='flex' alignItems='flex-end' justifyContent='flex-end'>
                             <Button onClick={submit}
                                 variant='contained'
                                 color='secondary'
-                                align>Post your answer
+                                disabled={ isAuthenticated ? false : true }
+                                >Post your answer
                             </Button>
                         </Box>
 
