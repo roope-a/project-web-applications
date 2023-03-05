@@ -11,7 +11,7 @@ class PageBase extends React.Component {
         return (
             <Box>
                 <Header />
-                <Container sx={{ maxWidth: 1264 }}>
+                <Container sx={{ maxWidth: 1264, minHeight: '100vh' }}>
                     <Grid container>
                         <LeftSideBar />
                         {this.props.children}

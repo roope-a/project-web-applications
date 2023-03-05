@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter as Router, Routes, Route, redirect, Navigate } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, redirect, Navigate, MemoryRouter } from 'react-router-dom'
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import React, { useEffect, useState } from 'react';
 import QuestionsPage from './components/QuestionsPage';

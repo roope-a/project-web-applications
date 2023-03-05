@@ -28,7 +28,7 @@ function Question({ qTitle, id, author, votes, comments, timestamp, authorId}) {
                         <Typography align='right'sx={{ fontSize: 13 }}>{ comments } comments</Typography>
                     </Grid>
                     <Grid item xs px={4} py={2}>
-                        <Typography align='left' paddingBottom={3}><Link variant='h5' color='secondary' component={RouterLink} to={'/questions'} >{qTitle}</Link></Typography>
+                        <Typography align='left' paddingBottom={3}><Link variant='h6' color='secondary' component={RouterLink} to={'/questions/'+id} >{qTitle}</Link></Typography>
                         {/* Question content preview would require changing how the content is stored, currently array of objects */}
                         {/* <Typography align='left' style={{display: '-webkit-box', overflowWrap: 'break-word', wordBreak: 'break-word', overflow: 'hidden', textOverflow: "ellipsis", WebkitLineClamp: 2, WebkitBoxOrient: 'vertical'}}></Typography> */}
                         <Typography align='right' sx={{ fontSize: 13 }}><Link  color='secondary' component={RouterLink} to={'/users/profile/'+authorId}>{ author }</Link> asked { dateTimeAgo }</Typography>

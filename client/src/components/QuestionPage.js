@@ -99,8 +99,10 @@ function QuestionPage() {
 
                     {/* comments */}
 
-                    {comments && comments.length > 0 && comments.map((comment) => (
-                        <Comment postContent={comment.content} postVotes={comment.votes}  ></Comment>
+                    {comments && comments.length > 0 && comments.map((comment, index) => (
+                        <React.Fragment key={index}>
+                            <Comment postContent={comment.content} postVotes={comment.votes}></Comment>
+                        </React.Fragment>
                     ))}
 
                     {/* Conditional rendering for this */}

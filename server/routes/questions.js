@@ -9,39 +9,7 @@ const User = require('../models/Users');
 
 
 router.get('/', async (req, res, next) => {
-
-
-  // qTitle = { question.title }
-  // id = { question.id }
-  // author = { question.author }
-  // timestamp = { question.timestamp }
-
   try {
-    // const posts = await Post.find({}).then((posts, err) => {
-    //   if (err) return res.json({ err: true });
-    //   const titles = [];
-
-    //   posts.forEach((post) => {
-    //     titles.push({
-    //       qTitle: post.title,
-    //       id: post._id,
-    //       comments: post.comments,
-    //       // author: new Promise((resolve) => {
-    //       //   User.findOne({ _id: post.user }).then((user) => {
-    //       //     resolve(user)
-    //       //   })
-    //       // }),
-    //       votes: post.votes,
-    //       timestamp: post.createdAt
-    //     })
-    //   });
-
-    //   return Promise.all(posts);
-
-    // }).then((posts) => {
-    //   console.log(posts)
-    // })
-
     const posts = await Post.find({}).populate('user').then((posts, err) => {
       if(err) return { err: true }
       const titles = [];
@@ -58,9 +26,7 @@ router.get('/', async (req, res, next) => {
       });
       return titles;
     })
-    console.log(posts)
     res.json(posts)
-
   } catch (error) {
     throw error;
   }

@@ -7,16 +7,42 @@ const passport = require('passport');
 const { body, validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
 const User = require('../models/Users');
-
+const Post = require('../models/Posts');
 
 router.get('/', (req, res, next) => {
   res.send('respond with a resource');
 });
 
+router.get('/profile/:id/posts', async (req, res, next) => {
+  try {
+    const posts = await Post.find({}).populate('user').then((posts, err) => {
+      if(err) return { err: true }
+      const titles = [];
+      posts.forEach((post, index) => {
+        if(index>=10) return titles;
+        titles.push({
+          qTitle: post.title,
+          id: post._id,
+          comments: post.comments,
+          author: post.user.displayName,
+          authorId: post.user._id,
+          votes: post.votes,
+          timestamp: post.createdAt
+        })
+      });
+      return titles;
+    })
+    res.json(posts)
+
+  } catch (error) {
+    throw error;
+  }
+});
+
 router.get('/:id', async (req, res, next) => {
   try {
-    const post = await User.findOne({ _id: req.params.id })
-    res.json(post);
+    const user = await User.findOne({ _id: req.params.id })
+    res.json({ displayName: user.displayName, id: user._id, email: user.email, registerDate: user.registerDate });
   } catch(error) {
     throw error;
   }
