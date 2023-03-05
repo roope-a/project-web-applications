@@ -9,7 +9,6 @@ import moment from 'moment';
 function ProfilePage() {
 
     const { id } = useParams();
-    const dateTimeAgo = '';
 
     const [posts, setPosts] = useState([]);
     const [user, setUser] = useState({});

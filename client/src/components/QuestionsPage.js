@@ -1,7 +1,6 @@
 import { Grid, Pagination, PaginationItem, Paper, Stack, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import React, { useEffect, useState } from 'react';
-import { Link, MemoryRouter, Route, Routes, useLocation } from 'react-router-dom';
 import PageBase from './PageBase';
 import Question from './Question'
 import SubHeader from './SubHeader';
